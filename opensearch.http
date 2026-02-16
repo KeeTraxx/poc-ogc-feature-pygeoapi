@@ -1,0 +1,233 @@
+@os = http://localhost:9200
+@index = swiss-places
+
+###############################################################################
+# Cluster & Index Info
+###############################################################################
+
+### Cluster health
+GET {{os}}/_cluster/health
+
+### Index mapping
+GET {{os}}/{{index}}/_mapping
+
+### Index stats (doc count, size)
+GET {{os}}/{{index}}/_stats
+
+###############################################################################
+# Basic Queries
+###############################################################################
+
+### All documents
+GET {{os}}/{{index}}/_search
+
+### Single document by ID
+GET {{os}}/{{index}}/_doc/1
+
+### Match all with source filtering (only return name and canton)
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": { "match_all": {} },
+  "_source": ["properties.name", "properties.canton"]
+}
+
+###############################################################################
+# Term & Filter Queries
+###############################################################################
+
+### Filter by type = city
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.type": "city" }
+  }
+}
+
+### Filter by canton = BE
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.canton": "BE" }
+  }
+}
+
+### Filter by type = mountain
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.type": "mountain" }
+  }
+}
+
+### Multiple filters: cities in canton ZH
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "term": { "properties.type": "city" } },
+        { "term": { "properties.canton": "ZH" } }
+      ]
+    }
+  }
+}
+
+###############################################################################
+# Full-Text Search
+###############################################################################
+
+### Search by name
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": { "properties.name": "Bern" }
+  }
+}
+
+### Search description for "Alps"
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": { "properties.description": "Alps" }
+  }
+}
+
+###############################################################################
+# Sorting
+###############################################################################
+
+### Sort by name ascending
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": { "match_all": {} },
+  "sort": [{ "properties.name.raw": "asc" }]
+}
+
+### Sort by name descending
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": { "match_all": {} },
+  "sort": [{ "properties.name.raw": "desc" }]
+}
+
+### Sort cities by population descending
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.type": "city" }
+  },
+  "sort": [{ "properties.population": "desc" }]
+}
+
+###############################################################################
+# Geo Queries
+###############################################################################
+
+### Bounding box: Bern area
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "geo_bounding_box": {
+      "geometry": {
+        "top_left": { "lon": 7.0, "lat": 47.1 },
+        "bottom_right": { "lon": 8.0, "lat": 46.8 }
+      }
+    }
+  }
+}
+
+### Bounding box: eastern Switzerland
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "geo_bounding_box": {
+      "geometry": {
+        "top_left": { "lon": 8.0, "lat": 47.6 },
+        "bottom_right": { "lon": 9.0, "lat": 47.0 }
+      }
+    }
+  }
+}
+
+### Geo distance: within 50km of Zurich
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "geo_distance": {
+      "distance": "50km",
+      "geometry": { "lat": 47.3769, "lon": 8.5417 }
+    }
+  }
+}
+
+###############################################################################
+# Aggregations
+###############################################################################
+
+### Count by type (city/mountain/lake)
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "size": 0,
+  "aggs": {
+    "by_type": {
+      "terms": { "field": "properties.type" }
+    }
+  }
+}
+
+### Count by canton
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "size": 0,
+  "aggs": {
+    "by_canton": {
+      "terms": { "field": "properties.canton" }
+    }
+  }
+}
+
+### Average population of cities
+POST {{os}}/{{index}}/_search
+Content-Type: application/json
+
+{
+  "size": 0,
+  "query": {
+    "term": { "properties.type": "city" }
+  },
+  "aggs": {
+    "avg_population": {
+      "avg": { "field": "properties.population" }
+    }
+  }
+}

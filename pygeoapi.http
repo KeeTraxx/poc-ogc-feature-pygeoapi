@@ -98,6 +98,65 @@ GET {{base}}/collections/swiss-places-lv95/items/1?f=json&crs=http://www.opengis
 GET {{base}}/collections/swiss-places-lv95/items?f=json&canton=VS
 
 ###############################################################################
+# Swiss Places PostGIS
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/swiss-places-postgis?f=json
+
+### All items
+GET {{base}}/collections/swiss-places-postgis/items?f=json
+
+### Single feature (Bern)
+GET {{base}}/collections/swiss-places-postgis/items/1?f=json
+
+### Sort by name ascending
+GET {{base}}/collections/swiss-places-postgis/items?f=json&sortby=name
+
+### Sort by name descending
+GET {{base}}/collections/swiss-places-postgis/items?f=json&sortby=-name
+
+### Sort by canton, then name
+GET {{base}}/collections/swiss-places-postgis/items?f=json&sortby=canton,name
+
+### Sort cities by population descending
+GET {{base}}/collections/swiss-places-postgis/items?f=json&type=city&sortby=-population
+
+### Filter by canton
+GET {{base}}/collections/swiss-places-postgis/items?f=json&canton=BE
+
+### BBox around Bern
+GET {{base}}/collections/swiss-places-postgis/items?f=json&bbox=7.0,46.8,8.0,47.1
+
+###############################################################################
+# Swiss Places OpenSearch
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/swiss-places-opensearch?f=json
+
+### All items
+GET {{base}}/collections/swiss-places-opensearch/items?f=json
+
+### Single feature (Zurich)
+GET {{base}}/collections/swiss-places-opensearch/items/2?f=json
+
+### Sort by name ascending
+GET {{base}}/collections/swiss-places-opensearch/items?f=json&sortby=name
+
+### Sort by name descending
+GET {{base}}/collections/swiss-places-opensearch/items?f=json&sortby=-name
+
+### Sort cities by population descending
+GET {{base}}/collections/swiss-places-opensearch/items?f=json&type=city&sortby=-population
+
+### Filter by canton
+GET {{base}}/collections/swiss-places-opensearch/items?f=json&canton=BE
+
+### BBox around eastern Switzerland
+GET {{base}}/collections/swiss-places-opensearch/items?f=json&bbox=8.0,47.0,9.0,47.6
+
+###############################################################################
 # Alternative output formats
 ###############################################################################
 

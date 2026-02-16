@@ -1,6 +1,7 @@
 services:
   pygeoapi:
-    image: geopython/pygeoapi:latest
+    build: .
+    image: pygeoapi-custom
     ports:
       - "5000:80"
     volumes:
@@ -8,3 +9,54 @@ services:
       - ./data:/pygeoapi/data
     environment:
       - PYGEOAPI_SERVER_URL=http://localhost:5000/
+    depends_on:
+      postgis:
+        condition: service_healthy
+      opensearch-loader:
+        condition: service_completed_successfully
+
+  postgis:
+    image: postgis/postgis:17-3.5
+    environment:
+      POSTGRES_DB: geodata
+      POSTGRES_USER: geo
+      POSTGRES_PASSWORD: geo
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-postgis.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U geo -d geodata"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  opensearch:
+    image: opensearchproject/opensearch:2
+    environment:
+      - discovery.type=single-node
+      - DISABLE_SECURITY_PLUGIN=true
+      - OPENSEARCH_JAVA_OPTS=-Xms256m -Xmx256m
+    ports:
+      - "9200:9200"
+    volumes:
+      - osdata:/usr/share/opensearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  opensearch-loader:
+    image: curlimages/curl:latest
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    volumes:
+      - ./load-opensearch.sh:/load.sh
+    entrypoint: ["sh", "/load.sh"]
+
+volumes:
+  pgdata:
+  osdata:
