@@ -1,0 +1,307 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "1",
+      "properties": {
+        "id": "1",
+        "name": "Bern",
+        "type": "city",
+        "canton": "BE",
+        "population": 134794,
+        "description": "Federal capital of Switzerland"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2600667.48,
+          1199657.32
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2",
+      "properties": {
+        "id": "2",
+        "name": "Zurich",
+        "type": "city",
+        "canton": "ZH",
+        "population": 421878,
+        "description": "Largest city in Switzerland"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2683303.89,
+          1247925.63
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3",
+      "properties": {
+        "id": "3",
+        "name": "Geneva",
+        "type": "city",
+        "canton": "GE",
+        "population": 203856,
+        "description": "Second largest city, international hub"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2500016.02,
+          1117821.07
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4",
+      "properties": {
+        "id": "4",
+        "name": "Basel",
+        "type": "city",
+        "canton": "BS",
+        "population": 177595,
+        "description": "Cultural capital at the Rhine"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2611287.84,
+          1267664.85
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5",
+      "properties": {
+        "id": "5",
+        "name": "Lausanne",
+        "type": "city",
+        "canton": "VD",
+        "population": 139408,
+        "description": "Olympic capital on Lake Geneva"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2538124.47,
+          1152363.14
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6",
+      "properties": {
+        "id": "6",
+        "name": "Lucerne",
+        "type": "city",
+        "canton": "LU",
+        "population": 82620,
+        "description": "Gateway to central Switzerland"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2666156.83,
+          1211385.57
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7",
+      "properties": {
+        "id": "7",
+        "name": "Matterhorn",
+        "type": "mountain",
+        "canton": "VS",
+        "elevation_m": 4478,
+        "description": "Iconic pyramid-shaped peak in the Alps"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2617047.93,
+          1091671.54
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8",
+      "properties": {
+        "id": "8",
+        "name": "Jungfrau",
+        "type": "mountain",
+        "canton": "BE",
+        "elevation_m": 4158,
+        "description": "One of the main summits of the Bernese Alps"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2640102.13,
+          1154122.83
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9",
+      "properties": {
+        "id": "9",
+        "name": "Lake Zurich",
+        "type": "lake",
+        "canton": "ZH",
+        "area_km2": 88.17,
+        "description": "Glacial lake extending southeast of Zurich"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2681675.79,
+              1247135.74
+            ],
+            [
+              2686239.6,
+              1244976.52
+            ],
+            [
+              2691579.72,
+              1241720.79
+            ],
+            [
+              2696943.88,
+              1237358.25
+            ],
+            [
+              2701558.84,
+              1232987.64
+            ],
+            [
+              2703111.53,
+              1230790.5
+            ],
+            [
+              2700858.38,
+              1229639.9
+            ],
+            [
+              2696277.45,
+              1231787.76
+            ],
+            [
+              2690908.89,
+              1236150.84
+            ],
+            [
+              2685548.19,
+              1240518.82
+            ],
+            [
+              2680966.08,
+              1243790.24
+            ],
+            [
+              2681675.79,
+              1247135.74
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "10",
+      "properties": {
+        "id": "10",
+        "name": "Lake Geneva",
+        "type": "lake",
+        "canton": "VD",
+        "area_km2": 580.03,
+        "description": "Largest lake in Western Europe"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2500569.32,
+              1119546.36
+            ],
+            [
+              2504462.1,
+              1121707.16
+            ],
+            [
+              2512206.94,
+              1123813.2
+            ],
+            [
+              2523827.87,
+              1128102.41
+            ],
+            [
+              2531570.07,
+              1131344.81
+            ],
+            [
+              2539315.06,
+              1135708.72
+            ],
+            [
+              2550884.27,
+              1138938.36
+            ],
+            [
+              2554746.24,
+              1141131.46
+            ],
+            [
+              2558574.79,
+              1138880.53
+            ],
+            [
+              2554712.8,
+              1136684.98
+            ],
+            [
+              2543141.4,
+              1133448.0
+            ],
+            [
+              2531532.23,
+              1128010.07
+            ],
+            [
+              2519916.78,
+              1123706.04
+            ],
+            [
+              2508284.61,
+              1119424.36
+            ],
+            [
+              2500532.75,
+              1117323.35
+            ],
+            [
+              2500569.32,
+              1119546.36
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

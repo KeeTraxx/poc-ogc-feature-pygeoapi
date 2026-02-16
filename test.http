@@ -1,0 +1,111 @@
+@base = http://localhost:5000
+
+### Landing page
+GET {{base}}/?f=json
+
+### OpenAPI specification
+GET {{base}}/openapi?f=json
+
+### List all collections
+GET {{base}}/collections?f=json
+
+###############################################################################
+# Swiss Places (WGS84)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/swiss-places?f=json
+
+### All items
+GET {{base}}/collections/swiss-places/items?f=json
+
+### Single feature by ID (Geneva)
+GET {{base}}/collections/swiss-places/items/3?f=json
+
+### Limit results to 3
+GET {{base}}/collections/swiss-places/items?f=json&limit=3
+
+### Paginate: skip first 3, get next 3
+GET {{base}}/collections/swiss-places/items?f=json&offset=3&limit=3
+
+### Queryables - list filterable properties
+GET {{base}}/collections/swiss-places/queryables?f=json
+
+### Filter by property: canton = BE
+GET {{base}}/collections/swiss-places/items?f=json&canton=BE
+
+### Filter by property: type = mountain
+GET {{base}}/collections/swiss-places/items?f=json&type=mountain
+
+### Filter by property: type = lake
+GET {{base}}/collections/swiss-places/items?f=json&type=lake
+
+### Filter by property: type = city
+GET {{base}}/collections/swiss-places/items?f=json&type=city
+
+### Filter by property: canton = ZH
+GET {{base}}/collections/swiss-places/items?f=json&canton=ZH
+
+### BBox: roughly around Bern area (lon_min, lat_min, lon_max, lat_max)
+GET {{base}}/collections/swiss-places/items?f=json&bbox=7.0,46.8,8.0,47.1
+
+### BBox: eastern Switzerland (Zurich, Lucerne area)
+GET {{base}}/collections/swiss-places/items?f=json&bbox=8.0,47.0,9.0,47.6
+
+### BBox: western Switzerland (Geneva, Lausanne area)
+GET {{base}}/collections/swiss-places/items?f=json&bbox=6.0,46.0,6.8,46.6
+
+### Combine bbox + property filter: cities in eastern Switzerland
+GET {{base}}/collections/swiss-places/items?f=json&bbox=8.0,47.0,9.0,47.6&type=city
+
+###############################################################################
+# Sorting (NOT supported by GeoJSON provider -- requires PostgreSQL,
+# Elasticsearch, OpenSearch, MySQL, MongoDB, OracleDB, or TinyDB)
+###############################################################################
+
+### Sort by name ascending
+GET {{base}}/collections/swiss-places/items?f=json&sortby=name
+
+### Sort by name descending
+GET {{base}}/collections/swiss-places/items?f=json&sortby=-name
+
+### Sort by canton ascending, then name ascending
+GET {{base}}/collections/swiss-places/items?f=json&sortby=canton,name
+
+### Sort by population descending
+GET {{base}}/collections/swiss-places/items?f=json&sortby=-population
+
+### Combine sort with property filter
+GET {{base}}/collections/swiss-places/items?f=json&type=city&sortby=-population
+
+###############################################################################
+# Swiss Places LV95 (EPSG:2056)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/swiss-places-lv95?f=json
+
+### All items (returned in default WGS84)
+GET {{base}}/collections/swiss-places-lv95/items?f=json
+
+### All items in native LV95 coordinates
+GET {{base}}/collections/swiss-places-lv95/items?f=json&crs=http://www.opengis.net/def/crs/EPSG/0/2056
+
+### Single feature in LV95 (Bern)
+GET {{base}}/collections/swiss-places-lv95/items/1?f=json&crs=http://www.opengis.net/def/crs/EPSG/0/2056
+
+### Filter by canton in LV95 collection
+GET {{base}}/collections/swiss-places-lv95/items?f=json&canton=VS
+
+###############################################################################
+# Alternative output formats
+###############################################################################
+
+### HTML landing page
+GET {{base}}/?f=html
+
+### HTML collection browse
+GET {{base}}/collections/swiss-places/items?f=html
+
+### JSON-LD (Linked Data)
+GET {{base}}/collections/swiss-places/items?f=jsonld

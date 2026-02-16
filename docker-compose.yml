@@ -1,0 +1,10 @@
+services:
+  pygeoapi:
+    image: geopython/pygeoapi:latest
+    ports:
+      - "5000:80"
+    volumes:
+      - ./pygeoapi-config.yml:/pygeoapi/local.config.yml
+      - ./data:/pygeoapi/data
+    environment:
+      - PYGEOAPI_SERVER_URL=http://localhost:5000/
