@@ -1,5 +1,4 @@
 @os = http://localhost:9200
-@index = swiss-places
 
 ###############################################################################
 # Cluster & Index Info
@@ -8,86 +7,37 @@
 ### Cluster health
 GET {{os}}/_cluster/health
 
+### List all indices
+GET {{os}}/_cat/indices?v
+
+###############################################################################
+# geojson-cantons (26 cantons)
+###############################################################################
+
 ### Index mapping
-GET {{os}}/{{index}}/_mapping
+GET {{os}}/geojson-cantons/_mapping
 
-### Index stats (doc count, size)
-GET {{os}}/{{index}}/_stats
-
-###############################################################################
-# Basic Queries
-###############################################################################
+### Index stats
+GET {{os}}/geojson-cantons/_stats
 
 ### All documents
-GET {{os}}/{{index}}/_search
+GET {{os}}/geojson-cantons/_search
 
 ### Single document by ID
-GET {{os}}/{{index}}/_doc/1
+GET {{os}}/geojson-cantons/_doc/1
 
-### Match all with source filtering (only return name and canton)
-POST {{os}}/{{index}}/_search
-Content-Type: application/json
-
-{
-  "query": { "match_all": {} },
-  "_source": ["properties.name", "properties.canton"]
-}
-
-###############################################################################
-# Term & Filter Queries
-###############################################################################
-
-### Filter by type = city
-POST {{os}}/{{index}}/_search
+### Filter by canton abbreviation (KTKZ)
+POST {{os}}/geojson-cantons/_search
 Content-Type: application/json
 
 {
   "query": {
-    "term": { "properties.type": "city" }
+    "term": { "properties.KTKZ.raw": "ZH" }
   }
 }
-
-### Filter by canton = BE
-POST {{os}}/{{index}}/_search
-Content-Type: application/json
-
-{
-  "query": {
-    "term": { "properties.canton": "BE" }
-  }
-}
-
-### Filter by type = mountain
-POST {{os}}/{{index}}/_search
-Content-Type: application/json
-
-{
-  "query": {
-    "term": { "properties.type": "mountain" }
-  }
-}
-
-### Multiple filters: cities in canton ZH
-POST {{os}}/{{index}}/_search
-Content-Type: application/json
-
-{
-  "query": {
-    "bool": {
-      "must": [
-        { "term": { "properties.type": "city" } },
-        { "term": { "properties.canton": "ZH" } }
-      ]
-    }
-  }
-}
-
-###############################################################################
-# Full-Text Search
-###############################################################################
 
 ### Search by name
-POST {{os}}/{{index}}/_search
+POST {{os}}/geojson-cantons/_search
 Content-Type: application/json
 
 {
@@ -96,55 +46,173 @@ Content-Type: application/json
   }
 }
 
-### Search description for "Alps"
-POST {{os}}/{{index}}/_search
+### Bounding box: western Switzerland
+POST {{os}}/geojson-cantons/_search
 Content-Type: application/json
 
 {
   "query": {
-    "match": { "properties.description": "Alps" }
+    "geo_bounding_box": {
+      "geometry": {
+        "top_left": { "lon": 6.0, "lat": 47.5 },
+        "bottom_right": { "lon": 7.5, "lat": 46.0 }
+      }
+    }
   }
 }
 
 ###############################################################################
-# Sorting
+# geojson-country (4 features)
 ###############################################################################
 
-### Sort by name ascending
-POST {{os}}/{{index}}/_search
-Content-Type: application/json
+### Index mapping
+GET {{os}}/geojson-country/_mapping
 
-{
-  "query": { "match_all": {} },
-  "sort": [{ "properties.name.raw": "asc" }]
-}
+### All documents
+GET {{os}}/geojson-country/_search
 
-### Sort by name descending
-POST {{os}}/{{index}}/_search
-Content-Type: application/json
+### Single document by ID
+GET {{os}}/geojson-country/_doc/1
 
-{
-  "query": { "match_all": {} },
-  "sort": [{ "properties.name.raw": "desc" }]
-}
-
-### Sort cities by population descending
-POST {{os}}/{{index}}/_search
+### Search by name
+POST {{os}}/geojson-country/_search
 Content-Type: application/json
 
 {
   "query": {
-    "term": { "properties.type": "city" }
-  },
-  "sort": [{ "properties.population": "desc" }]
+    "match": { "properties.name": "Switzerland" }
+  }
 }
 
 ###############################################################################
-# Geo Queries
+# geojson-districts (144 districts)
 ###############################################################################
 
+### Index mapping
+GET {{os}}/geojson-districts/_mapping
+
+### All documents (first 10)
+GET {{os}}/geojson-districts/_search
+
+### Single document by ID
+GET {{os}}/geojson-districts/_doc/1
+
+### Filter by canton (KTKZ)
+POST {{os}}/geojson-districts/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.KTKZ.raw": "ZH" }
+  }
+}
+
+### Search by district name (BEZNAME)
+POST {{os}}/geojson-districts/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": { "properties.BEZNAME": "Zürich" }
+  }
+}
+
+### Sort by district name ascending
+POST {{os}}/geojson-districts/_search
+Content-Type: application/json
+
+{
+  "query": { "match_all": {} },
+  "sort": [{ "properties.BEZNAME.raw": "asc" }]
+}
+
+###############################################################################
+# geojson-lakes (22 lakes)
+###############################################################################
+
+### Index mapping
+GET {{os}}/geojson-lakes/_mapping
+
+### All documents
+GET {{os}}/geojson-lakes/_search
+
+### Single document by ID
+GET {{os}}/geojson-lakes/_doc/1
+
+### Search by lake name (SEENAME)
+POST {{os}}/geojson-lakes/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": { "properties.SEENAME": "Zürichsee" }
+  }
+}
+
+### Sort by area descending
+POST {{os}}/geojson-lakes/_search
+Content-Type: application/json
+
+{
+  "query": { "match_all": {} },
+  "sort": [{ "properties.AREA_HA": "desc" }]
+}
+
+###############################################################################
+# geojson-municipalities (2113 municipalities)
+###############################################################################
+
+### Index mapping
+GET {{os}}/geojson-municipalities/_mapping
+
+### All documents (first 10)
+GET {{os}}/geojson-municipalities/_search
+
+### Single document by ID
+GET {{os}}/geojson-municipalities/_doc/1
+
+### Filter by canton (KTKZ)
+POST {{os}}/geojson-municipalities/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.KTKZ.raw": "BE" }
+  }
+}
+
+### Search by municipality name (GDENAME)
+POST {{os}}/geojson-municipalities/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": { "properties.GDENAME": "Bern" }
+  }
+}
+
+### Filter by district name (BEZNAME)
+POST {{os}}/geojson-municipalities/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": { "properties.BEZNAME": "Bern-Mittelland" }
+  }
+}
+
+### Sort by municipality name ascending
+POST {{os}}/geojson-municipalities/_search
+Content-Type: application/json
+
+{
+  "query": { "match_all": {} },
+  "sort": [{ "properties.GDENAME.raw": "asc" }],
+  "size": 20
+}
+
 ### Bounding box: Bern area
-POST {{os}}/{{index}}/_search
+POST {{os}}/geojson-municipalities/_search
 Content-Type: application/json
 
 {
@@ -158,23 +226,85 @@ Content-Type: application/json
   }
 }
 
-### Bounding box: eastern Switzerland
-POST {{os}}/{{index}}/_search
+### Geo distance: within 20km of Zurich
+POST {{os}}/geojson-municipalities/_search
 Content-Type: application/json
 
 {
   "query": {
-    "geo_bounding_box": {
-      "geometry": {
-        "top_left": { "lon": 8.0, "lat": 47.6 },
-        "bottom_right": { "lon": 9.0, "lat": 47.0 }
-      }
+    "geo_distance": {
+      "distance": "20km",
+      "geometry": { "lat": 47.3769, "lon": 8.5417 }
     }
   }
 }
 
+###############################################################################
+# geojson-swiss-places (10 places: cities, mountains, lakes)
+###############################################################################
+
+### Index mapping
+GET {{os}}/geojson-swiss-places/_mapping
+
+### All documents
+GET {{os}}/geojson-swiss-places/_search
+
+### Single document by ID
+GET {{os}}/geojson-swiss-places/_doc/1
+
+### Filter by type = city
+POST {{os}}/geojson-swiss-places/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.type.raw": "city" }
+  }
+}
+
+### Filter by type = mountain
+POST {{os}}/geojson-swiss-places/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.type.raw": "mountain" }
+  }
+}
+
+### Filter by canton = BE
+POST {{os}}/geojson-swiss-places/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.canton.raw": "BE" }
+  }
+}
+
+### Search by name
+POST {{os}}/geojson-swiss-places/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": { "properties.name": "Bern" }
+  }
+}
+
+### Sort cities by population descending
+POST {{os}}/geojson-swiss-places/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": { "properties.type.raw": "city" }
+  },
+  "sort": [{ "properties.population": "desc" }]
+}
+
 ### Geo distance: within 50km of Zurich
-POST {{os}}/{{index}}/_search
+POST {{os}}/geojson-swiss-places/_search
 Content-Type: application/json
 
 {
@@ -187,47 +317,18 @@ Content-Type: application/json
 }
 
 ###############################################################################
-# Aggregations
+# Aggregations (across indices)
 ###############################################################################
 
-### Count by type (city/mountain/lake)
-POST {{os}}/{{index}}/_search
-Content-Type: application/json
-
-{
-  "size": 0,
-  "aggs": {
-    "by_type": {
-      "terms": { "field": "properties.type" }
-    }
-  }
-}
-
-### Count by canton
-POST {{os}}/{{index}}/_search
+### Count municipalities by canton
+POST {{os}}/geojson-municipalities/_search
 Content-Type: application/json
 
 {
   "size": 0,
   "aggs": {
     "by_canton": {
-      "terms": { "field": "properties.canton" }
-    }
-  }
-}
-
-### Average population of cities
-POST {{os}}/{{index}}/_search
-Content-Type: application/json
-
-{
-  "size": 0,
-  "query": {
-    "term": { "properties.type": "city" }
-  },
-  "aggs": {
-    "avg_population": {
-      "avg": { "field": "properties.population" }
+      "terms": { "field": "properties.KTKZ.raw", "size": 30 }
     }
   }
 }

@@ -12,8 +12,6 @@ services:
     depends_on:
       postgis:
         condition: service_healthy
-      opensearch-loader:
-        condition: service_completed_successfully
       geojson-loader:
         condition: service_completed_successfully
 
@@ -49,15 +47,6 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
-
-  opensearch-loader:
-    image: curlimages/curl:latest
-    depends_on:
-      opensearch:
-        condition: service_healthy
-    volumes:
-      - ./load-opensearch.sh:/load.sh
-    entrypoint: ["sh", "/load.sh"]
 
   geojson-loader:
     image: python:3.13-slim

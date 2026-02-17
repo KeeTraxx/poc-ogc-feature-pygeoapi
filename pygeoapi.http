@@ -10,151 +10,276 @@ GET {{base}}/openapi?f=json
 GET {{base}}/collections?f=json
 
 ###############################################################################
-# Swiss Places (WGS84)
+# Cantons - PostGIS (26 cantons)
 ###############################################################################
 
 ### Collection metadata
-GET {{base}}/collections/swiss-places?f=json
+GET {{base}}/collections/cantons-postgis?f=json
+
+### Queryables
+GET {{base}}/collections/cantons-postgis/queryables?f=json
 
 ### All items
-GET {{base}}/collections/swiss-places/items?f=json
+GET {{base}}/collections/cantons-postgis/items?f=json
 
-### Single feature by ID (Geneva)
-GET {{base}}/collections/swiss-places/items/3?f=json
+### Single feature by ID
+GET {{base}}/collections/cantons-postgis/items/1?f=json
 
-### Limit results to 3
-GET {{base}}/collections/swiss-places/items?f=json&limit=3
+### Limit results
+GET {{base}}/collections/cantons-postgis/items?f=json&limit=5
 
-### Paginate: skip first 3, get next 3
-GET {{base}}/collections/swiss-places/items?f=json&offset=3&limit=3
-
-### Queryables - list filterable properties
-GET {{base}}/collections/swiss-places/queryables?f=json
-
-### Filter by property: canton = BE
-GET {{base}}/collections/swiss-places/items?f=json&canton=BE
-
-### Filter by property: type = mountain
-GET {{base}}/collections/swiss-places/items?f=json&type=mountain
-
-### Filter by property: type = lake
-GET {{base}}/collections/swiss-places/items?f=json&type=lake
-
-### Filter by property: type = city
-GET {{base}}/collections/swiss-places/items?f=json&type=city
-
-### Filter by property: canton = ZH
-GET {{base}}/collections/swiss-places/items?f=json&canton=ZH
-
-### BBox: roughly around Bern area (lon_min, lat_min, lon_max, lat_max)
-GET {{base}}/collections/swiss-places/items?f=json&bbox=7.0,46.8,8.0,47.1
-
-### BBox: eastern Switzerland (Zurich, Lucerne area)
-GET {{base}}/collections/swiss-places/items?f=json&bbox=8.0,47.0,9.0,47.6
-
-### BBox: western Switzerland (Geneva, Lausanne area)
-GET {{base}}/collections/swiss-places/items?f=json&bbox=6.0,46.0,6.8,46.6
-
-### Combine bbox + property filter: cities in eastern Switzerland
-GET {{base}}/collections/swiss-places/items?f=json&bbox=8.0,47.0,9.0,47.6&type=city
-
-###############################################################################
-# Sorting (NOT supported by GeoJSON provider -- requires PostgreSQL,
-# Elasticsearch, OpenSearch, MySQL, MongoDB, OracleDB, or TinyDB)
-###############################################################################
+### Filter by canton abbreviation (KTKZ)
+GET {{base}}/collections/cantons-postgis/items?f=json&KTKZ=BE
 
 ### Sort by name ascending
-GET {{base}}/collections/swiss-places/items?f=json&sortby=name
+GET {{base}}/collections/cantons-postgis/items?f=json&sortby=name
 
-### Sort by name descending
-GET {{base}}/collections/swiss-places/items?f=json&sortby=-name
+### Sort by area descending
+GET {{base}}/collections/cantons-postgis/items?f=json&sortby=-AREA_HA
 
-### Sort by canton ascending, then name ascending
-GET {{base}}/collections/swiss-places/items?f=json&sortby=canton,name
-
-### Sort by population descending
-GET {{base}}/collections/swiss-places/items?f=json&sortby=-population
-
-### Combine sort with property filter
-GET {{base}}/collections/swiss-places/items?f=json&type=city&sortby=-population
+### BBox: western Switzerland
+GET {{base}}/collections/cantons-postgis/items?f=json&bbox=6.0,46.0,7.5,47.5
 
 ###############################################################################
-# Swiss Places LV95 (EPSG:2056)
+# Cantons - OpenSearch (26 cantons)
 ###############################################################################
 
 ### Collection metadata
-GET {{base}}/collections/swiss-places-lv95?f=json
-
-### All items (returned in default WGS84)
-GET {{base}}/collections/swiss-places-lv95/items?f=json
-
-### All items in native LV95 coordinates
-GET {{base}}/collections/swiss-places-lv95/items?f=json&crs=http://www.opengis.net/def/crs/EPSG/0/2056
-
-### Single feature in LV95 (Bern)
-GET {{base}}/collections/swiss-places-lv95/items/1?f=json&crs=http://www.opengis.net/def/crs/EPSG/0/2056
-
-### Filter by canton in LV95 collection
-GET {{base}}/collections/swiss-places-lv95/items?f=json&canton=VS
-
-###############################################################################
-# Swiss Places PostGIS
-###############################################################################
-
-### Collection metadata
-GET {{base}}/collections/swiss-places-postgis?f=json
+GET {{base}}/collections/cantons-opensearch?f=json
 
 ### All items
-GET {{base}}/collections/swiss-places-postgis/items?f=json
+GET {{base}}/collections/cantons-opensearch/items?f=json
 
-### Single feature (Bern)
-GET {{base}}/collections/swiss-places-postgis/items/1?f=json
+### Single feature by ID
+GET {{base}}/collections/cantons-opensearch/items/1?f=json
+
+### Filter by KTKZ
+GET {{base}}/collections/cantons-opensearch/items?f=json&KTKZ=ZH
+
+### Sort by name
+GET {{base}}/collections/cantons-opensearch/items?f=json&sortby=name
+
+### BBox: eastern Switzerland
+GET {{base}}/collections/cantons-opensearch/items?f=json&bbox=8.0,47.0,10.5,47.9
+
+###############################################################################
+# Country - PostGIS (4 features)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/country-postgis?f=json
+
+### All items
+GET {{base}}/collections/country-postgis/items?f=json
+
+### Single feature by ID
+GET {{base}}/collections/country-postgis/items/1?f=json
+
+###############################################################################
+# Country - OpenSearch (4 features)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/country-opensearch?f=json
+
+### All items
+GET {{base}}/collections/country-opensearch/items?f=json
+
+### Single feature by ID
+GET {{base}}/collections/country-opensearch/items/1?f=json
+
+###############################################################################
+# Districts - PostGIS (144 districts)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/districts-postgis?f=json
+
+### Queryables
+GET {{base}}/collections/districts-postgis/queryables?f=json
+
+### All items
+GET {{base}}/collections/districts-postgis/items?f=json
+
+### Single feature by ID
+GET {{base}}/collections/districts-postgis/items/1?f=json
+
+### Paginate: skip first 10, get next 10
+GET {{base}}/collections/districts-postgis/items?f=json&offset=10&limit=10
+
+### Filter by canton (KTKZ)
+GET {{base}}/collections/districts-postgis/items?f=json&KTKZ=ZH
+
+### Sort by district name
+GET {{base}}/collections/districts-postgis/items?f=json&sortby=BEZNAME
+
+### Sort by area descending
+GET {{base}}/collections/districts-postgis/items?f=json&sortby=-AREA_HA
+
+### BBox: Bern area
+GET {{base}}/collections/districts-postgis/items?f=json&bbox=7.0,46.8,8.0,47.1
+
+###############################################################################
+# Districts - OpenSearch (144 districts)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/districts-opensearch?f=json
+
+### All items
+GET {{base}}/collections/districts-opensearch/items?f=json
+
+### Filter by canton (KTKZ)
+GET {{base}}/collections/districts-opensearch/items?f=json&KTKZ=BE
+
+### Sort by district name
+GET {{base}}/collections/districts-opensearch/items?f=json&sortby=BEZNAME
+
+### BBox: eastern Switzerland
+GET {{base}}/collections/districts-opensearch/items?f=json&bbox=8.0,47.0,9.5,47.6
+
+###############################################################################
+# Lakes - PostGIS (22 lakes)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/lakes-postgis?f=json
+
+### Queryables
+GET {{base}}/collections/lakes-postgis/queryables?f=json
+
+### All items
+GET {{base}}/collections/lakes-postgis/items?f=json
+
+### Single feature by ID
+GET {{base}}/collections/lakes-postgis/items/1?f=json
+
+### Sort by area descending
+GET {{base}}/collections/lakes-postgis/items?f=json&sortby=-AREA_HA
+
+### Sort by lake name
+GET {{base}}/collections/lakes-postgis/items?f=json&sortby=SEENAME
+
+### BBox: central Switzerland
+GET {{base}}/collections/lakes-postgis/items?f=json&bbox=7.5,46.5,8.5,47.2
+
+###############################################################################
+# Lakes - OpenSearch (22 lakes)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/lakes-opensearch?f=json
+
+### All items
+GET {{base}}/collections/lakes-opensearch/items?f=json
+
+### Single feature by ID
+GET {{base}}/collections/lakes-opensearch/items/1?f=json
+
+### Sort by lake name
+GET {{base}}/collections/lakes-opensearch/items?f=json&sortby=SEENAME
+
+### BBox: western Switzerland
+GET {{base}}/collections/lakes-opensearch/items?f=json&bbox=6.0,46.0,7.0,46.8
+
+###############################################################################
+# Municipalities - PostGIS (2113 municipalities)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/municipalities-postgis?f=json
+
+### Queryables
+GET {{base}}/collections/municipalities-postgis/queryables?f=json
+
+### All items (default limit)
+GET {{base}}/collections/municipalities-postgis/items?f=json
+
+### Single feature by ID
+GET {{base}}/collections/municipalities-postgis/items/1?f=json
+
+### Paginate: skip first 50, get next 20
+GET {{base}}/collections/municipalities-postgis/items?f=json&offset=50&limit=20
+
+### Filter by canton (KTKZ)
+GET {{base}}/collections/municipalities-postgis/items?f=json&KTKZ=BE
+
+### Filter by district (BEZNAME)
+GET {{base}}/collections/municipalities-postgis/items?f=json&BEZNAME=Bern-Mittelland
+
+### Sort by municipality name
+GET {{base}}/collections/municipalities-postgis/items?f=json&sortby=GDENAME
+
+### Sort by area descending
+GET {{base}}/collections/municipalities-postgis/items?f=json&sortby=-AREA_HA
+
+### BBox: Bern area
+GET {{base}}/collections/municipalities-postgis/items?f=json&bbox=7.0,46.8,8.0,47.1
+
+### Combine bbox + filter: municipalities in ZH within bbox
+GET {{base}}/collections/municipalities-postgis/items?f=json&bbox=8.0,47.0,9.0,47.6&KTKZ=ZH
+
+###############################################################################
+# Municipalities - OpenSearch (2113 municipalities)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/municipalities-opensearch?f=json
+
+### All items
+GET {{base}}/collections/municipalities-opensearch/items?f=json
+
+### Single feature by ID
+GET {{base}}/collections/municipalities-opensearch/items/1?f=json
+
+### Filter by canton (KTKZ)
+GET {{base}}/collections/municipalities-opensearch/items?f=json&KTKZ=ZH
+
+### Sort by municipality name
+GET {{base}}/collections/municipalities-opensearch/items?f=json&sortby=GDENAME
+
+### BBox: Zurich area
+GET {{base}}/collections/municipalities-opensearch/items?f=json&bbox=8.3,47.2,8.7,47.5
+
+###############################################################################
+# Swiss Places - PostGIS (10 places: cities, mountains, lakes)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/swiss-places-geojson-postgis?f=json
+
+### Queryables
+GET {{base}}/collections/swiss-places-geojson-postgis/queryables?f=json
+
+### All items
+GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json
+
+### Single feature by ID (Bern)
+GET {{base}}/collections/swiss-places-geojson-postgis/items/1?f=json
+
+### Filter by type = city
+GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&type=city
+
+### Filter by type = mountain
+GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&type=mountain
+
+### Filter by type = lake
+GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&type=lake
+
+### Filter by canton = BE
+GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&canton=BE
 
 ### Sort by name ascending
-GET {{base}}/collections/swiss-places-postgis/items?f=json&sortby=name
-
-### Sort by name descending
-GET {{base}}/collections/swiss-places-postgis/items?f=json&sortby=-name
-
-### Sort by canton, then name
-GET {{base}}/collections/swiss-places-postgis/items?f=json&sortby=canton,name
+GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&sortby=name
 
 ### Sort cities by population descending
-GET {{base}}/collections/swiss-places-postgis/items?f=json&type=city&sortby=-population
+GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&type=city&sortby=-population
 
-### Filter by canton
-GET {{base}}/collections/swiss-places-postgis/items?f=json&canton=BE
+### BBox: Bern area
+GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&bbox=7.0,46.8,8.0,47.1
 
-### BBox around Bern
-GET {{base}}/collections/swiss-places-postgis/items?f=json&bbox=7.0,46.8,8.0,47.1
-
-###############################################################################
-# Swiss Places OpenSearch
-###############################################################################
-
-### Collection metadata
-GET {{base}}/collections/swiss-places-opensearch?f=json
-
-### All items
-GET {{base}}/collections/swiss-places-opensearch/items?f=json
-
-### Single feature (Zurich)
-GET {{base}}/collections/swiss-places-opensearch/items/2?f=json
-
-### Sort by name ascending
-GET {{base}}/collections/swiss-places-opensearch/items?f=json&sortby=name
-
-### Sort by name descending
-GET {{base}}/collections/swiss-places-opensearch/items?f=json&sortby=-name
-
-### Sort cities by population descending
-GET {{base}}/collections/swiss-places-opensearch/items?f=json&type=city&sortby=-population
-
-### Filter by canton
-GET {{base}}/collections/swiss-places-opensearch/items?f=json&canton=BE
-
-### BBox around eastern Switzerland
-GET {{base}}/collections/swiss-places-opensearch/items?f=json&bbox=8.0,47.0,9.0,47.6
+### BBox: eastern Switzerland
+GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&bbox=8.0,47.0,9.0,47.6
 
 ###############################################################################
 # Alternative output formats
@@ -164,7 +289,7 @@ GET {{base}}/collections/swiss-places-opensearch/items?f=json&bbox=8.0,47.0,9.0,
 GET {{base}}/?f=html
 
 ### HTML collection browse
-GET {{base}}/collections/swiss-places/items?f=html
+GET {{base}}/collections/cantons-postgis/items?f=html
 
 ### JSON-LD (Linked Data)
-GET {{base}}/collections/swiss-places/items?f=jsonld
+GET {{base}}/collections/cantons-postgis/items?f=jsonld
