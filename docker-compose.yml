@@ -65,7 +65,7 @@ services:
     entrypoint:
       - sh
       - -c
-      - "pip install --quiet psycopg2-binary requests && python3 load-geojson.py"
+      - "pip install --quiet psycopg2-binary requests pyproj && python3 load-geojson.py"
 
 volumes:
   pgdata:

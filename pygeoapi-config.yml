@@ -222,6 +222,224 @@ resources:
         table: geojson_swiss_places
         geom_field: geom
 
+  # ── GeoJSON data: PostGIS LV95 (EPSG:2056) collections ──
+
+  cantons-postgis-lv95:
+    type: collection
+    title: PostGIS LV95 - Swiss Cantons
+    description: Boundaries of the 26 Swiss cantons (stored in LV95 / EPSG:2056)
+    keywords: [switzerland, cantons, administrative, postgis, lv95]
+    links:
+      - type: text/html
+        rel: canonical
+        title: swisstopo
+        href: https://www.swisstopo.admin.ch
+        hreflang: en-US
+    extents:
+      spatial:
+        bbox: [5.9, 45.8, 10.5, 47.9]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${POSTGRES_HOST:-postgis}
+          port: ${POSTGRES_PORT:-5432}
+          dbname: ${POSTGRES_DB:-geodata}
+          user: ${POSTGRES_USER:-geo}
+          password: ${POSTGRES_PASSWORD:-geo}
+          search_path: [public]
+        id_field: gid
+        title_field: KTKZ
+        table: geojson_cantons_lv95
+        geom_field: geom
+        storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+        crs:
+          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+          - http://www.opengis.net/def/crs/EPSG/0/4326
+          - http://www.opengis.net/def/crs/EPSG/0/2056
+          - http://www.opengis.net/def/crs/EPSG/0/3857
+
+  country-postgis-lv95:
+    type: collection
+    title: PostGIS LV95 - Swiss Country Boundary
+    description: Country boundary of Switzerland (stored in LV95 / EPSG:2056)
+    keywords: [switzerland, country, boundary, postgis, lv95]
+    links:
+      - type: text/html
+        rel: canonical
+        title: swisstopo
+        href: https://www.swisstopo.admin.ch
+        hreflang: en-US
+    extents:
+      spatial:
+        bbox: [5.9, 45.8, 10.5, 47.9]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${POSTGRES_HOST:-postgis}
+          port: ${POSTGRES_PORT:-5432}
+          dbname: ${POSTGRES_DB:-geodata}
+          user: ${POSTGRES_USER:-geo}
+          password: ${POSTGRES_PASSWORD:-geo}
+          search_path: [public]
+        id_field: gid
+        title_field: name
+        table: geojson_country_lv95
+        geom_field: geom
+        storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+        crs:
+          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+          - http://www.opengis.net/def/crs/EPSG/0/4326
+          - http://www.opengis.net/def/crs/EPSG/0/2056
+          - http://www.opengis.net/def/crs/EPSG/0/3857
+
+  districts-postgis-lv95:
+    type: collection
+    title: PostGIS LV95 - Swiss Districts
+    description: Boundaries of the 144 Swiss districts (stored in LV95 / EPSG:2056)
+    keywords: [switzerland, districts, administrative, postgis, lv95]
+    links:
+      - type: text/html
+        rel: canonical
+        title: swisstopo
+        href: https://www.swisstopo.admin.ch
+        hreflang: en-US
+    extents:
+      spatial:
+        bbox: [5.9, 45.8, 10.5, 47.9]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${POSTGRES_HOST:-postgis}
+          port: ${POSTGRES_PORT:-5432}
+          dbname: ${POSTGRES_DB:-geodata}
+          user: ${POSTGRES_USER:-geo}
+          password: ${POSTGRES_PASSWORD:-geo}
+          search_path: [public]
+        id_field: gid
+        title_field: BEZNAME
+        table: geojson_districts_lv95
+        geom_field: geom
+        storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+        crs:
+          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+          - http://www.opengis.net/def/crs/EPSG/0/4326
+          - http://www.opengis.net/def/crs/EPSG/0/2056
+          - http://www.opengis.net/def/crs/EPSG/0/3857
+
+  lakes-postgis-lv95:
+    type: collection
+    title: PostGIS LV95 - Swiss Lakes
+    description: Major Swiss lakes (stored in LV95 / EPSG:2056)
+    keywords: [switzerland, lakes, hydrography, postgis, lv95]
+    links:
+      - type: text/html
+        rel: canonical
+        title: swisstopo
+        href: https://www.swisstopo.admin.ch
+        hreflang: en-US
+    extents:
+      spatial:
+        bbox: [5.9, 45.8, 10.5, 47.9]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${POSTGRES_HOST:-postgis}
+          port: ${POSTGRES_PORT:-5432}
+          dbname: ${POSTGRES_DB:-geodata}
+          user: ${POSTGRES_USER:-geo}
+          password: ${POSTGRES_PASSWORD:-geo}
+          search_path: [public]
+        id_field: gid
+        title_field: name
+        table: geojson_lakes_lv95
+        geom_field: geom
+        storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+        crs:
+          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+          - http://www.opengis.net/def/crs/EPSG/0/4326
+          - http://www.opengis.net/def/crs/EPSG/0/2056
+          - http://www.opengis.net/def/crs/EPSG/0/3857
+
+  municipalities-postgis-lv95:
+    type: collection
+    title: PostGIS LV95 - Swiss Municipalities
+    description: Boundaries of all 2113 Swiss municipalities (stored in LV95 / EPSG:2056)
+    keywords: [switzerland, municipalities, administrative, postgis, lv95]
+    links:
+      - type: text/html
+        rel: canonical
+        title: swisstopo
+        href: https://www.swisstopo.admin.ch
+        hreflang: en-US
+    extents:
+      spatial:
+        bbox: [5.9, 45.8, 10.5, 47.9]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${POSTGRES_HOST:-postgis}
+          port: ${POSTGRES_PORT:-5432}
+          dbname: ${POSTGRES_DB:-geodata}
+          user: ${POSTGRES_USER:-geo}
+          password: ${POSTGRES_PASSWORD:-geo}
+          search_path: [public]
+        id_field: gid
+        title_field: GDENAME
+        table: geojson_municipalities_lv95
+        geom_field: geom
+        storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+        crs:
+          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+          - http://www.opengis.net/def/crs/EPSG/0/4326
+          - http://www.opengis.net/def/crs/EPSG/0/2056
+          - http://www.opengis.net/def/crs/EPSG/0/3857
+
+  swiss-places-geojson-postgis-lv95:
+    type: collection
+    title: PostGIS LV95 - Swiss Places from GeoJSON
+    description: Swiss cities, mountains, and lakes loaded from GeoJSON into PostGIS (stored in LV95 / EPSG:2056)
+    keywords: [switzerland, places, postgis, lv95]
+    links:
+      - type: text/html
+        rel: canonical
+        title: Swiss geospatial data
+        href: https://www.swisstopo.admin.ch
+        hreflang: en-US
+    extents:
+      spatial:
+        bbox: [5.9, 45.8, 10.5, 47.9]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${POSTGRES_HOST:-postgis}
+          port: ${POSTGRES_PORT:-5432}
+          dbname: ${POSTGRES_DB:-geodata}
+          user: ${POSTGRES_USER:-geo}
+          password: ${POSTGRES_PASSWORD:-geo}
+          search_path: [public]
+        id_field: gid
+        title_field: name
+        table: geojson_swiss_places_lv95
+        geom_field: geom
+        storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+        crs:
+          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+          - http://www.opengis.net/def/crs/EPSG/0/4326
+          - http://www.opengis.net/def/crs/EPSG/0/2056
+          - http://www.opengis.net/def/crs/EPSG/0/3857
+
   # ── GeoJSON data: OpenSearch collections ──
 
   cantons-opensearch:

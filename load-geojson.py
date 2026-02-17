@@ -6,10 +6,11 @@ Usage:
     python3 load-geojson.py
     PG_HOST=postgis OS_URL=http://opensearch:9200 python3 load-geojson.py
 
-Requires: psycopg2-binary requests
-    pip install psycopg2-binary requests
+Requires: psycopg2-binary requests pyproj
+    pip install psycopg2-binary requests pyproj
 """
 
+import copy
 import json
 import os
 import sys
@@ -17,9 +18,13 @@ from pathlib import Path
 
 import psycopg2
 import requests
+from pyproj import Transformer
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 DATA_DIR = SCRIPT_DIR / "data"
+
+# WGS84 -> LV95 transformer (always_xy ensures lon/lat -> E/N order)
+_transformer_4326_to_2056 = Transformer.from_crs(4326, 2056, always_xy=True)
 
 # --- PostGIS settings ---
 PG_HOST = os.environ.get("PG_HOST", "localhost")
@@ -79,12 +84,49 @@ def _infer_columns(features: list[dict]) -> list[tuple[str, str]]:
     return [(k, type_map[k]) for k in seen_keys]
 
 
+def _reproject_coords(coords, depth: int = 0):
+    """Recursively reproject coordinates from WGS84 to LV95."""
+    if depth == 0:
+        # Single coordinate [x, y] or [x, y, z]
+        e, n = _transformer_4326_to_2056.transform(coords[0], coords[1])
+        return [round(e, 2), round(n, 2)] + coords[2:]
+    return [_reproject_coords(c, depth - 1) for c in coords]
+
+
+def _reproject_geometry(geometry: dict) -> dict:
+    """Reproject a GeoJSON geometry from WGS84 (4326) to LV95 (2056)."""
+    geom_type = geometry.get("type", "")
+    coords = geometry.get("coordinates")
+    if coords is None:
+        return geometry
+
+    depth_map = {
+        "Point": 0, "MultiPoint": 1, "LineString": 1,
+        "MultiLineString": 2, "Polygon": 2, "MultiPolygon": 3,
+    }
+    depth = depth_map.get(geom_type)
+    if depth is None:
+        return geometry
+
+    return {**geometry, "coordinates": _reproject_coords(coords, depth)}
+
+
+def _reproject_features(features: list[dict]) -> list[dict]:
+    """Deep-copy features and reproject all geometries to LV95."""
+    lv95_features = []
+    for feat in features:
+        feat_copy = copy.deepcopy(feat)
+        feat_copy["geometry"] = _reproject_geometry(feat_copy["geometry"])
+        lv95_features.append(feat_copy)
+    return lv95_features
+
+
 def _safe_table(name: str) -> str:
     """Convert a dataset name to a valid SQL table name."""
     return "geojson_" + name.replace("-", "_")
 
 
-def load_postgis(name: str, features: list[dict]) -> int:
+def load_postgis(name: str, features: list[dict], srid: int = 4326) -> int:
     """Load features into PostGIS with flat columns. Returns row count."""
     table = _safe_table(name)
     columns = _infer_columns(features)
@@ -101,13 +143,13 @@ def load_postgis(name: str, features: list[dict]) -> int:
                 CREATE TABLE {table} (
                     gid SERIAL PRIMARY KEY,
                     {col_defs},
-                    geom GEOMETRY(Geometry, 4326)
+                    geom GEOMETRY(Geometry, {srid})
                 )
             """)
 
             col_names = [f'"{c}"' for c, _ in columns]
             placeholders = ["%s"] * len(columns) + [
-                "ST_SetSRID(ST_GeomFromGeoJSON(%s), 4326)"
+                f"ST_SetSRID(ST_GeomFromGeoJSON(%s), {srid})"
             ]
             insert_sql = (
                 f"INSERT INTO {table} ({', '.join(col_names)}, geom) "
@@ -263,18 +305,26 @@ def main():
 
         table = _safe_table(name)
 
-        # PostGIS
+        # PostGIS (WGS84)
         print(f"  {name} -> PostGIS ({table}) ... ", end="", flush=True)
         count = load_postgis(name, features)
         print(f"{count} features")
 
-        # OpenSearch
+        # OpenSearch (WGS84)
         print(f"  {name} -> OpenSearch (geojson-{name}) ... ", end="", flush=True)
         indexed, errors = load_opensearch(name, features)
         msg = f"{indexed} features"
         if errors:
             msg += f" ({errors} skipped - invalid geometry)"
         print(msg)
+
+        # PostGIS (LV95 / EPSG:2056)
+        lv95_name = f"{name}-lv95"
+        lv95_table = _safe_table(lv95_name)
+        print(f"  {name} -> PostGIS LV95 ({lv95_table}) ... ", end="", flush=True)
+        lv95_features = _reproject_features(features)
+        lv95_count = load_postgis(lv95_name, lv95_features, srid=2056)
+        print(f"{lv95_count} features")
 
         print()
 
