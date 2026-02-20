@@ -282,6 +282,173 @@ GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&bbox=7.0,46.8
 GET {{base}}/collections/swiss-places-geojson-postgis/items?f=json&bbox=8.0,47.0,9.0,47.6
 
 ###############################################################################
+# LV95 (EPSG:2056) collections — CRS negotiation (OGC API Features Part 2)
+# Use ?crs= to request output in LV95; use ?bbox-crs= for LV95 bbox input.
+# LV95 CRS URI: http://www.opengis.net/def/crs/EPSG/0/2056
+###############################################################################
+
+@lv95 = http://www.opengis.net/def/crs/EPSG/0/2056
+
+###############################################################################
+# Cantons LV95 - PostGIS (stored in EPSG:2056)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/cantons-postgis-lv95?f=json
+
+### Queryables
+GET {{base}}/collections/cantons-postgis-lv95/queryables?f=json
+
+### All items — output in LV95git@github.com:KeeTraxx/poc-ogc-feature.git
+GET {{base}}/collections/cantons-postgis-lv95/items?f=json&crs={{lv95}}
+
+### Single feature by ID — output in LV95
+GET {{base}}/collections/cantons-postgis-lv95/items/1?f=json&crs={{lv95}}
+
+### Limit results — output in LV95
+GET {{base}}/collections/cantons-postgis-lv95/items?f=json&crs={{lv95}}&limit=5
+
+### Filter by canton abbreviation (KTKZ) — output in LV95
+GET {{base}}/collections/cantons-postgis-lv95/items?f=json&crs={{lv95}}&KTKZ=BE
+
+### BBox in LV95 (western Switzerland: Lac Léman to Bern)
+GET {{base}}/collections/cantons-postgis-lv95/items?f=json&crs={{lv95}}&bbox=2485000,1115000,2620000,1210000&bbox-crs={{lv95}}
+
+### Sort by area descending — output in LV95
+GET {{base}}/collections/cantons-postgis-lv95/items?f=json&crs={{lv95}}&sortby=-AREA_HA
+
+###############################################################################
+# Country LV95 - PostGIS (stored in EPSG:2056)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/country-postgis-lv95?f=json
+
+### All items — output in LV95
+GET {{base}}/collections/country-postgis-lv95/items?f=json&crs={{lv95}}
+
+### Single feature by ID — output in LV95
+GET {{base}}/collections/country-postgis-lv95/items/1?f=json&crs={{lv95}}
+
+###############################################################################
+# Districts LV95 - PostGIS (stored in EPSG:2056)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/districts-postgis-lv95?f=json
+
+### Queryables
+GET {{base}}/collections/districts-postgis-lv95/queryables?f=json
+
+### All items — output in LV95
+GET {{base}}/collections/districts-postgis-lv95/items?f=json&crs={{lv95}}
+
+### Single feature by ID — output in LV95
+GET {{base}}/collections/districts-postgis-lv95/items/1?f=json&crs={{lv95}}
+
+### Paginate — output in LV95
+GET {{base}}/collections/districts-postgis-lv95/items?f=json&crs={{lv95}}&offset=10&limit=10
+
+### Filter by canton (KTKZ) — output in LV95
+GET {{base}}/collections/districts-postgis-lv95/items?f=json&crs={{lv95}}&KTKZ=ZH
+
+### BBox in LV95 (Bern area: ~2590000–2620000 E, ~1195000–1210000 N)
+GET {{base}}/collections/districts-postgis-lv95/items?f=json&crs={{lv95}}&bbox=2590000,1195000,2620000,1210000&bbox-crs={{lv95}}
+
+### Sort by district name — output in LV95
+GET {{base}}/collections/districts-postgis-lv95/items?f=json&crs={{lv95}}&sortby=BEZNAME
+
+###############################################################################
+# Lakes LV95 - PostGIS (stored in EPSG:2056)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/lakes-postgis-lv95?f=json
+
+### Queryables
+GET {{base}}/collections/lakes-postgis-lv95/queryables?f=json
+
+### All items — output in LV95
+GET {{base}}/collections/lakes-postgis-lv95/items?f=json&crs={{lv95}}
+
+### Single feature by ID — output in LV95
+GET {{base}}/collections/lakes-postgis-lv95/items/1?f=json&crs={{lv95}}
+
+### Sort by lake name — output in LV95
+GET {{base}}/collections/lakes-postgis-lv95/items?f=json&crs={{lv95}}&sortby=SEENAME
+
+### Sort by area descending — output in LV95
+GET {{base}}/collections/lakes-postgis-lv95/items?f=json&crs={{lv95}}&sortby=-AREA_HA
+
+### BBox in LV95 (central Switzerland: Vierwaldstättersee region)
+GET {{base}}/collections/lakes-postgis-lv95/items?f=json&crs={{lv95}}&bbox=2640000,1195000,2700000,1230000&bbox-crs={{lv95}}
+
+###############################################################################
+# Municipalities LV95 - PostGIS (stored in EPSG:2056)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/municipalities-postgis-lv95?f=json
+
+### Queryables
+GET {{base}}/collections/municipalities-postgis-lv95/queryables?f=json
+
+### All items (default limit) — output in LV95
+GET {{base}}/collections/municipalities-postgis-lv95/items?f=json&crs={{lv95}}
+
+### Single feature by ID — output in LV95
+GET {{base}}/collections/municipalities-postgis-lv95/items/1?f=json&crs={{lv95}}
+
+### Paginate — output in LV95
+GET {{base}}/collections/municipalities-postgis-lv95/items?f=json&crs={{lv95}}&offset=50&limit=20
+
+### Filter by canton (KTKZ) — output in LV95
+GET {{base}}/collections/municipalities-postgis-lv95/items?f=json&crs={{lv95}}&KTKZ=BE
+
+### Filter by district (BEZNAME) — output in LV95
+GET {{base}}/collections/municipalities-postgis-lv95/items?f=json&crs={{lv95}}&BEZNAME=Bern-Mittelland
+
+### BBox in LV95 (Zurich area: ~2675000–2700000 E, ~1240000–1265000 N)
+GET {{base}}/collections/municipalities-postgis-lv95/items?f=json&crs={{lv95}}&bbox=2675000,1240000,2700000,1265000&bbox-crs={{lv95}}
+
+### Combine bbox + filter in LV95: ZH municipalities in Zurich bbox
+GET {{base}}/collections/municipalities-postgis-lv95/items?f=json&crs={{lv95}}&bbox=2675000,1240000,2700000,1265000&bbox-crs={{lv95}}&KTKZ=ZH
+
+### Sort by municipality name — output in LV95
+GET {{base}}/collections/municipalities-postgis-lv95/items?f=json&crs={{lv95}}&sortby=GDENAME
+
+###############################################################################
+# Swiss Places LV95 - PostGIS (stored in EPSG:2056)
+###############################################################################
+
+### Collection metadata
+GET {{base}}/collections/swiss-places-geojson-postgis-lv95?f=json
+
+### Queryables
+GET {{base}}/collections/swiss-places-geojson-postgis-lv95/queryables?f=json
+
+### All items — output in LV95
+GET {{base}}/collections/swiss-places-geojson-postgis-lv95/items?f=json&crs={{lv95}}
+
+### Single feature by ID (Bern) — output in LV95
+GET {{base}}/collections/swiss-places-geojson-postgis-lv95/items/1?f=json&crs={{lv95}}
+
+### Filter by type = city — output in LV95
+GET {{base}}/collections/swiss-places-geojson-postgis-lv95/items?f=json&crs={{lv95}}&type=city
+
+### Filter by type = mountain — output in LV95
+GET {{base}}/collections/swiss-places-geojson-postgis-lv95/items?f=json&crs={{lv95}}&type=mountain
+
+### Filter by canton = BE — output in LV95
+GET {{base}}/collections/swiss-places-geojson-postgis-lv95/items?f=json&crs={{lv95}}&canton=BE
+
+### Sort cities by population descending — output in LV95
+GET {{base}}/collections/swiss-places-geojson-postgis-lv95/items?f=json&crs={{lv95}}&type=city&sortby=-population
+
+### BBox in LV95 (Bern area)
+GET {{base}}/collections/swiss-places-geojson-postgis-lv95/items?f=json&crs={{lv95}}&bbox=2570000,1190000,2620000,1215000&bbox-crs={{lv95}}
+
+###############################################################################
 # Alternative output formats
 ###############################################################################
 
