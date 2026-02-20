@@ -1,0 +1,245 @@
+MAP
+  NAME "swiss-geodata"
+  STATUS ON
+  SIZE 800 600
+  EXTENT 5.9 45.8 10.5 47.9
+  UNITS DD
+
+  CONFIG "MS_ERRORFILE" "stderr"
+
+  WEB
+    METADATA
+      "ows_title"          "Swiss Geospatial Data - MapServer"
+      "ows_abstract"       "OGC API Features server using MapServer with Swiss geospatial data from PostGIS"
+      "ows_onlineresource"  "http://localhost:8080/mapserv?"
+      "ows_srs"            "EPSG:4326 EPSG:2056 EPSG:3857"
+      "ows_enable_request"  "*"
+
+      "wfs_title"          "Swiss Geospatial Data - WFS"
+      "wfs_onlineresource"  "http://localhost:8080/mapserv?"
+      "wfs_srs"            "EPSG:4326 EPSG:2056 EPSG:3857"
+      "wfs_enable_request"  "*"
+      "wfs_getfeature_formatlist" "geojson"
+
+      "oga_title"          "Swiss Geospatial Data - OGC API Features"
+      "oga_description"    "Proof of concept OGC API Features server using MapServer with Swiss geospatial data"
+      "oga_onlineresource"  "http://localhost:8080/swiss-geodata/ogcapi"
+    END
+  END
+
+  PROJECTION
+    "init=epsg:4326"
+  END
+
+  OUTPUTFORMAT
+    NAME "png"
+    DRIVER AGG/PNG
+    MIMETYPE "image/png"
+    IMAGEMODE RGBA
+    EXTENSION "png"
+  END
+
+  OUTPUTFORMAT
+    NAME "geojson"
+    DRIVER "OGR/GEOJSON"
+    MIMETYPE "application/geo+json"
+    FORMATOPTION "STORAGE=stream"
+    FORMATOPTION "FORM=SIMPLE"
+  END
+
+  SYMBOL
+    NAME "circle"
+    TYPE ELLIPSE
+    POINTS 1 1 END
+    FILLED TRUE
+  END
+
+  # ── Swiss Cantons ──
+  LAYER
+    NAME "cantons"
+    STATUS ON
+    TYPE POLYGON
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=postgis dbname=geodata user=geo password=geo port=5432"
+    DATA "geom FROM geojson_cantons USING UNIQUE gid USING SRID=4326"
+    TEMPLATE "void"
+    METADATA
+      "ows_title"       "Swiss Cantons"
+      "ows_abstract"    "Boundaries of the 26 Swiss cantons"
+      "ows_srs"         "EPSG:4326 EPSG:2056 EPSG:3857"
+      "gml_include_items" "all"
+      "gml_featureid"   "gid"
+      "oga_title"       "Swiss Cantons"
+      "oga_description" "Boundaries of the 26 Swiss cantons"
+    END
+    PROJECTION
+      "init=epsg:4326"
+    END
+    CLASS
+      NAME "Canton"
+      STYLE
+        COLOR 200 220 200
+        OUTLINECOLOR 80 80 80
+        WIDTH 1
+      END
+    END
+  END
+
+  # ── Swiss Country Boundary ──
+  LAYER
+    NAME "country"
+    STATUS ON
+    TYPE POLYGON
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=postgis dbname=geodata user=geo password=geo port=5432"
+    DATA "geom FROM geojson_country USING UNIQUE gid USING SRID=4326"
+    TEMPLATE "void"
+    METADATA
+      "ows_title"       "Swiss Country Boundary"
+      "ows_abstract"    "Country boundary of Switzerland"
+      "ows_srs"         "EPSG:4326 EPSG:2056 EPSG:3857"
+      "gml_include_items" "all"
+      "gml_featureid"   "gid"
+      "oga_title"       "Swiss Country Boundary"
+      "oga_description" "Country boundary of Switzerland"
+    END
+    PROJECTION
+      "init=epsg:4326"
+    END
+    CLASS
+      NAME "Country"
+      STYLE
+        COLOR 240 240 220
+        OUTLINECOLOR 60 60 60
+        WIDTH 2
+      END
+    END
+  END
+
+  # ── Swiss Districts ──
+  LAYER
+    NAME "districts"
+    STATUS ON
+    TYPE POLYGON
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=postgis dbname=geodata user=geo password=geo port=5432"
+    DATA "geom FROM geojson_districts USING UNIQUE gid USING SRID=4326"
+    TEMPLATE "void"
+    METADATA
+      "ows_title"       "Swiss Districts"
+      "ows_abstract"    "Boundaries of the 144 Swiss districts"
+      "ows_srs"         "EPSG:4326 EPSG:2056 EPSG:3857"
+      "gml_include_items" "all"
+      "gml_featureid"   "gid"
+      "oga_title"       "Swiss Districts"
+      "oga_description" "Boundaries of the 144 Swiss districts"
+    END
+    PROJECTION
+      "init=epsg:4326"
+    END
+    CLASS
+      NAME "District"
+      STYLE
+        COLOR 210 230 210
+        OUTLINECOLOR 100 100 100
+        WIDTH 1
+      END
+    END
+  END
+
+  # ── Swiss Lakes ──
+  LAYER
+    NAME "lakes"
+    STATUS ON
+    TYPE POLYGON
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=postgis dbname=geodata user=geo password=geo port=5432"
+    DATA "geom FROM geojson_lakes USING UNIQUE gid USING SRID=4326"
+    TEMPLATE "void"
+    METADATA
+      "ows_title"       "Swiss Lakes"
+      "ows_abstract"    "Major Swiss lakes"
+      "ows_srs"         "EPSG:4326 EPSG:2056 EPSG:3857"
+      "gml_include_items" "all"
+      "gml_featureid"   "gid"
+      "oga_title"       "Swiss Lakes"
+      "oga_description" "Major Swiss lakes"
+    END
+    PROJECTION
+      "init=epsg:4326"
+    END
+    CLASS
+      NAME "Lake"
+      STYLE
+        COLOR 170 210 240
+        OUTLINECOLOR 80 130 180
+        WIDTH 1
+      END
+    END
+  END
+
+  # ── Swiss Municipalities ──
+  LAYER
+    NAME "municipalities"
+    STATUS ON
+    TYPE POLYGON
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=postgis dbname=geodata user=geo password=geo port=5432"
+    DATA "geom FROM geojson_municipalities USING UNIQUE gid USING SRID=4326"
+    TEMPLATE "void"
+    METADATA
+      "ows_title"       "Swiss Municipalities"
+      "ows_abstract"    "Boundaries of all 2113 Swiss municipalities"
+      "ows_srs"         "EPSG:4326 EPSG:2056 EPSG:3857"
+      "gml_include_items" "all"
+      "gml_featureid"   "gid"
+      "oga_title"       "Swiss Municipalities"
+      "oga_description" "Boundaries of all 2113 Swiss municipalities"
+    END
+    PROJECTION
+      "init=epsg:4326"
+    END
+    CLASS
+      NAME "Municipality"
+      STYLE
+        COLOR 220 230 220
+        OUTLINECOLOR 120 120 120
+        WIDTH 1
+      END
+    END
+  END
+
+  # ── Swiss Places ──
+  LAYER
+    NAME "swiss-places"
+    STATUS ON
+    TYPE POINT
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=postgis dbname=geodata user=geo password=geo port=5432"
+    DATA "geom FROM geojson_swiss_places USING UNIQUE gid USING SRID=4326"
+    TEMPLATE "void"
+    METADATA
+      "ows_title"       "Swiss Places"
+      "ows_abstract"    "Swiss cities, mountains, and lakes loaded from GeoJSON into PostGIS"
+      "ows_srs"         "EPSG:4326 EPSG:2056 EPSG:3857"
+      "gml_include_items" "all"
+      "gml_featureid"   "gid"
+      "oga_title"       "Swiss Places"
+      "oga_description" "Swiss cities, mountains, and lakes"
+    END
+    PROJECTION
+      "init=epsg:4326"
+    END
+    CLASS
+      NAME "Place"
+      STYLE
+        SYMBOL "circle"
+        SIZE 8
+        COLOR 200 50 50
+        OUTLINECOLOR 100 20 20
+        WIDTH 1
+      END
+    END
+  END
+
+END

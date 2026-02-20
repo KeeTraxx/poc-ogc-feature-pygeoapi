@@ -15,6 +15,23 @@ services:
       geojson-loader:
         condition: service_completed_successfully
 
+  mapserver:
+    image: camptocamp/mapserver:8.6.0
+    ports:
+      - "8080:80"
+    volumes:
+      - ./mapfiles:/etc/mapserver:ro
+      - ./mapserver.conf:/etc/mapserver.conf:ro
+    environment:
+      - MIN_PROCESSES=2
+      - MAX_PROCESSES=5
+    depends_on:
+      postgis:
+        condition: service_healthy
+      geojson-loader:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
   postgis:
     image: postgis/postgis:17-3.5
     environment:
@@ -43,7 +60,11 @@ services:
     volumes:
       - osdata:/usr/share/opensearch/data
     healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "curl -sf http://localhost:9200/_cluster/health || exit 1",
+        ]
       interval: 5s
       timeout: 3s
       retries: 10
